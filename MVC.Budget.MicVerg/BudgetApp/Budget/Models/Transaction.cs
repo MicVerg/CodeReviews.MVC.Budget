@@ -27,7 +27,9 @@ namespace Budget.Models
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
 
-        [DisplayName("Category")]
+        [NotMapped]
+        public string CategoryName => Category?.Description;
+
         public Category Category { get; set; }
     }
     public enum TransactionType

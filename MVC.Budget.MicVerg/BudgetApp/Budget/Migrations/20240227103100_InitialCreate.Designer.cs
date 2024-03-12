@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Budget.Migrations
 {
     [DbContext(typeof(BudgetContext))]
-    [Migration("20240226145037_SeedData")]
-    partial class SeedData
+    [Migration("20240227103100_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -110,7 +110,7 @@ namespace Budget.Migrations
                             Id = -1,
                             Amount = 50.00m,
                             CategoryId = -1,
-                            Date = new DateTime(2024, 2, 23, 15, 50, 37, 514, DateTimeKind.Local).AddTicks(5852),
+                            Date = new DateTime(2024, 2, 24, 11, 30, 59, 453, DateTimeKind.Local).AddTicks(5594),
                             Description = "Grocery shopping",
                             TransactionType = 1
                         },
@@ -119,7 +119,7 @@ namespace Budget.Migrations
                             Id = -2,
                             Amount = 100.00m,
                             CategoryId = -2,
-                            Date = new DateTime(2024, 2, 21, 15, 50, 37, 514, DateTimeKind.Local).AddTicks(5896),
+                            Date = new DateTime(2024, 2, 22, 11, 30, 59, 453, DateTimeKind.Local).AddTicks(5642),
                             Description = "Paid electricity bill",
                             TransactionType = 1
                         },
@@ -128,7 +128,7 @@ namespace Budget.Migrations
                             Id = -3,
                             Amount = 2000.00m,
                             CategoryId = -6,
-                            Date = new DateTime(2024, 2, 16, 15, 50, 37, 514, DateTimeKind.Local).AddTicks(5900),
+                            Date = new DateTime(2024, 2, 17, 11, 30, 59, 453, DateTimeKind.Local).AddTicks(5645),
                             Description = "Received salary",
                             TransactionType = 0
                         },
@@ -137,7 +137,7 @@ namespace Budget.Migrations
                             Id = -4,
                             Amount = 80.00m,
                             CategoryId = -3,
-                            Date = new DateTime(2024, 2, 24, 15, 50, 37, 514, DateTimeKind.Local).AddTicks(5902),
+                            Date = new DateTime(2024, 2, 25, 11, 30, 59, 453, DateTimeKind.Local).AddTicks(5648),
                             Description = "Dinner with friends",
                             TransactionType = 1
                         },
@@ -146,7 +146,7 @@ namespace Budget.Migrations
                             Id = -5,
                             Amount = 60.00m,
                             CategoryId = -4,
-                            Date = new DateTime(2024, 2, 18, 15, 50, 37, 514, DateTimeKind.Local).AddTicks(5905),
+                            Date = new DateTime(2024, 2, 19, 11, 30, 59, 453, DateTimeKind.Local).AddTicks(5650),
                             Description = "Monthly bus pass",
                             TransactionType = 1
                         },
@@ -155,7 +155,7 @@ namespace Budget.Migrations
                             Id = -6,
                             Amount = 120.00m,
                             CategoryId = -5,
-                            Date = new DateTime(2024, 2, 11, 15, 50, 37, 514, DateTimeKind.Local).AddTicks(5908),
+                            Date = new DateTime(2024, 2, 12, 11, 30, 59, 453, DateTimeKind.Local).AddTicks(5653),
                             Description = "Doctor's appointment",
                             TransactionType = 1
                         });

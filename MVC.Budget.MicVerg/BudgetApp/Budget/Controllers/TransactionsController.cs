@@ -1,113 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Budget.Data;
+﻿using Budget.Data;
 using Budget.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Budget.Controllers
 {
-    public class TransactionsController : Controller
-    {
-        private readonly BudgetContext _context;
-
-        public TransactionsController(BudgetContext context)
+        [Route("api/[controller]")]
+        [ApiController]
+        public class TransactionsController : ControllerBase
         {
-            _context = context;
-        }
+            private readonly BudgetContext _context;
 
-        // GET: Transactions
-        public async Task<IActionResult> Index()
-        {
-            var budgetContext = _context.Transactions.Include(t => t.Category);
-            return View(await budgetContext.ToListAsync());
-        }
-
-        // GET: Transactions/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            public TransactionsController(BudgetContext context)
             {
-                return NotFound();
+                _context = context;
             }
 
-            var transaction = await _context.Transactions
-                .Include(t => t.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (transaction == null)
+            // GET: api/Transactions
+            [HttpGet]
+            public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactions()
             {
-                return NotFound();
+                return await _context.Transactions.ToListAsync();
             }
 
-            return View(transaction);
-        }
-
-        // GET: Transactions/Create
-        public IActionResult Create()
-        {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description");
-            return View();
-        }
-
-        // POST: Transactions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,Date,Amount,TransactionType,CategoryId")] Transaction transaction)
-        {
-            if (ModelState.IsValid)
+            // GET: api/Transactions/5
+            [HttpGet("{id}")]
+            public async Task<ActionResult<Transaction>> GetTransaction(int id)
             {
-                _context.Add(transaction);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", transaction.CategoryId);
-            return View(transaction);
-        }
+                var transactionModel = await _context.Transactions.FindAsync(id);
 
-        // GET: Transactions/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+                if (transactionModel == null)
+                {
+                    return NotFound();
+                }
+
+                return transactionModel;
             }
 
-            var transaction = await _context.Transactions.FindAsync(id);
-            if (transaction == null)
+            // PUT: api/Transactions/5
+            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+            [HttpPut("{id}")]
+            public async Task<IActionResult> PutTransaction(int id, Transaction transactionModel)
             {
-                return NotFound();
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", transaction.CategoryId);
-            return View(transaction);
-        }
+                if (id != transactionModel.Id)
+                {
+                    return BadRequest();
+                }
 
-        // POST: Transactions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Date,Amount,TransactionType,CategoryId")] Transaction transaction)
-        {
-            if (id != transaction.Id)
-            {
-                return NotFound();
-            }
+                _context.Entry(transactionModel).State = EntityState.Modified;
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
-                    _context.Update(transaction);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TransactionExists(transaction.Id))
+                    if (!TransactionExists(id))
                     {
                         return NotFound();
                     }
@@ -116,49 +64,40 @@ namespace Budget.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", transaction.CategoryId);
-            return View(transaction);
-        }
 
-        // GET: Transactions/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+                return NoContent();
+            }
+
+            // POST: api/Transactions
+            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+            [HttpPost]
+            public async Task<ActionResult<Transaction>> PostTransactionModel(Transaction transactionModel)
             {
-                return NotFound();
+                _context.Transactions.Add(transactionModel);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetTransaction), new { id = transactionModel.Id }, transactionModel);
             }
 
-            var transaction = await _context.Transactions
-                .Include(t => t.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (transaction == null)
+            // DELETE: api/Transactions/5
+            [HttpDelete("{id}")]
+            public async Task<IActionResult> DeleteTransactionModel(int id)
             {
-                return NotFound();
+                var transactionModel = await _context.Transactions.FindAsync(id);
+                if (transactionModel == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Transactions.Remove(transactionModel);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
 
-            return View(transaction);
-        }
-
-        // POST: Transactions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var transaction = await _context.Transactions.FindAsync(id);
-            if (transaction != null)
+            private bool TransactionExists(int id)
             {
-                _context.Transactions.Remove(transaction);
+                return _context.Transactions.Any(e => e.Id == id);
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool TransactionExists(int id)
-        {
-            return _context.Transactions.Any(e => e.Id == id);
         }
     }
-}
