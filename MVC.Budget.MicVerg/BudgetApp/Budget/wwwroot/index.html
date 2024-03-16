@@ -14,12 +14,12 @@
     <section>
     <div class="container">
             <div>
-                <h1 class="text-success text-center fw-bold mt-4 mb-5">Budget</h1>
+                <h1 class="text-success text-center fw-bold mt-4 mb-5">€€ Budget €€</h1>
             </div>
     </div>
     <div class="container">
         <div class="row text-center">
-            <div class="col-3 offset-3">
+            <div class="col-4">
                 <button class="btn btn-lg btn-success" data-bs-toggle="modal" data-bs-target="#addTransaction">Add transaction</button>
                 <div id="addTransaction" class="modal modal-lg" tabindex="-1">
                     <div class="modal-dialog">
@@ -62,7 +62,6 @@
                                 </form>
                             </div>
                                 
-                            
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-success">Add</button>
                                 <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
@@ -72,10 +71,72 @@
                     </div>
                 </div>
             
-            <div class="col-3">
-                <button class="btn btn-lg btn-success">Categories</button>
+            <div class="col-4">
+                <button class="btn btn-lg btn-success" data-bs-toggle="modal" data-bs-target="#addCategory">Add category</button>
+                <div id="addCategory" class="modal modal-lg" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="h4 modal-title">New category</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form class="row">
+                                    <div class="col-12">
+                                        <div class="form-group align-items-center">
+                                            <label for="categoryDescription" class="form-label col-4">Category name</label>
+                                            <input type="text" class="form-control col-8" id="categoryDescription" placeholder="Fill in category description">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success">Add</button>
+                                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <div class="col-4">
+                <button class="btn btn-lg btn-success" data-bs-toggle="modal" data-bs-target="#editCategory">Edit/ delete category</button>
+                <div id="editCategory" class="modal modal-lg" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="h4 modal-title">Edit category</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <label for="categoryToEdit" class="form-label">Category</label>
+                                                <select class="form-select" id="categoryToEdit"></select>
+                                            </div>
+                                            <div class="col-2 mt-4">
+                                                <button type="button" class="btn btn-warning">Edit</button>
+                                            </div>
+                                            <div class="col-2 mt-4">
+                                                <button type="button" class="btn btn-danger">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
