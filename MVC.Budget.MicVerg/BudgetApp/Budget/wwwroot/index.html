@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="..\css\custom.css">
+    <script src="..\node_modules\bootstrap\dist\js\bootstrap.bundle.min.js"></script>
+
 
     <title>BudgetApp</title>
 </head>
@@ -15,30 +17,83 @@
                 <h1 class="text-success text-center fw-bold mt-4 mb-5">Budget</h1>
             </div>
     </div>
-
     <div class="container">
         <div class="row text-center">
             <div class="col-3 offset-3">
-                <button class="btn btn-lg btn-success">Transactions</button>
-            </div>
+                <button class="btn btn-lg btn-success" data-bs-toggle="modal" data-bs-target="#addTransaction">Add transaction</button>
+                <div id="addTransaction" class="modal modal-lg" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="h4 modal-title">New transaction</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="row">
+                                    <div class="col-4">
+                                        <label for="transactionDescription" class="form-label">Description</label>
+                                        <input type="text" class="form-control" id="transactionDescription" placeholder="Description">
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="amount" class="form-label">Amount</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">€</span>
+                                            <input type="text" class="form-control" id="amount" placeholder="0">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="transactionType" class="form-label">Type</label>
+                                        <select class="form-select" id="transactionType"></select>
+                                    </div>
+                                </form>
+
+                                <form class="row mt-4">
+                                    <div class="col-6">
+                                        <label for="transactionDate" class="form-label">Date</label>
+                                        <input type="date" class="form-control" id="transactionDate" placeholder="Date">
+                                    </div>
+
+                                    <div class="col-6">
+                                        <label for="transactionCategory" class="form-label">Category</label>
+                                        <select class="form-select" id="transactionCategory"></select>
+                                    </div>
+                                </form>
+                            </div>
+                                
+                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success">Add</button>
+                                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
             <div class="col-3">
                 <button class="btn btn-lg btn-success">Categories</button>
             </div>
+        </div>
         </div>
     </div>
 </section>
 
 <section>
 <div class="m-5">
-    <table class="table text-center table-striped">
-        <tr>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>+ / -</th>
-            <th>Category</th>
-        </tr>
-    </table>
+    <form>
+        <table class="table text-center table-striped table-hover">
+            <tr>
+                <th>Description<input class="form-control form-control-sm" type="text"></th>
+                <th>Amount</th>
+                <th>+ / -</th>
+                <th>Date<select class="form-select" aria-label="Date select"></select></th>
+                <th>Category<select class="form-select" aria-label="Category select"></select></th>
+                <th>Edit/ Delete</th>
+            </tr>
+        </table>
+    </form>
 </div>
 </section>
 
