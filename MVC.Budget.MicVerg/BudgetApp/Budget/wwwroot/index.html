@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="..\css\custom.css">
     <script src="..\node_modules\bootstrap\dist\js\bootstrap.bundle.min.js"></script>
+    <script src="js/site.js" asp-append-version="true"></script>
 
 
     <title>BudgetApp</title>
@@ -144,7 +145,7 @@
 <section>
 <div class="m-5">
     <form>
-        <table class="table text-center table-striped table-hover">
+        <table class="table text-center table-striped table-hover" id="transactions">
             <tr>
                 <th>Description<input class="form-control form-control-sm" type="text"></th>
                 <th>Amount</th>
