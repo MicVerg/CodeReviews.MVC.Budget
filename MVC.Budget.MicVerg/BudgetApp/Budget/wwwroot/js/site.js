@@ -1,19 +1,39 @@
-const uri = 'https://localhost:7129/api/transactions';
+const uriTransactions = 'https://localhost:7129/api/transactions';
+const uriCategories = 'https://localhost:7129/api/categories';
 let transactions = [];
+let categories = [];
 function getTransactions() {
-    fetch(uri)
+    return fetch(uriTransactions)
         .then(response => response.json())
-        .then(data => _displayTransactions(data))
+        .then(transactionsData => {
+            return getCategories()
+                .then(categoriesData => {
+                    _displayTransactions(transactionsData, categoriesData);
+                });
+        })
         .catch(error => console.error('Unable to get transactions.', error));
 }
 
-function _displayTransactions(data) {
+
+function getCategories() {
+    return fetch(uriCategories)
+        .then(response => response.json())
+        .catch(error => console.error('Unable to get categories.', error));
+}
+
+
+function _displayTransactions(transactionsData, categoriesData) {
     const tBody = document.getElementById('transactions');
     tBody.innerHTML = '';
 
+    let categoryMap = {};
+    categoriesData.forEach(category => {
+        categoryMap[category.id] = category.description;
+    });
+
     const button = document.createElement('button');
 
-    data.forEach(transaction => {
+    transactionsData.forEach(transaction => {
         let editButton = document.createElement('button');
         editButton.classList.add('btn', 'btn-warning', 'btn-md');
         editButton.style.width = '100%';
@@ -52,13 +72,43 @@ function _displayTransactions(data) {
         let td1 = tr.insertCell(0);
         let textNodeDescription = (document.createTextNode(transaction.description));
         td1.appendChild(textNodeDescription);
-    });
 
-    transactions = data;
+        let td2 = tr.insertCell(1);
+        let transactionType;
+        if (transaction.transactionType == 1) {
+            transactionType = '-';
+        } else if (transaction.transactionType == 0) {
+            transactionType = '+';
+        }
+        let textNodeAmount = (document.createTextNode(transactionType + ' €' + transaction.amount));
+        td2.appendChild(textNodeAmount);
+
+        let td3 = tr.insertCell(2);
+        let transactionDate = new Date(transaction.date);
+        let formattedDate = transactionDate.toLocaleDateString('nl-BE', {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit'
+        });
+        let textNodeDate = (document.createTextNode(formattedDate));
+        td3.appendChild(textNodeDate);
+
+        let categoryDescription = categoryMap[transaction.categoryId];
+        let td4 = tr.insertCell(3);
+        let textNodeCategory = (document.createTextNode(categoryDescription));
+        td4.appendChild(textNodeCategory);
+
+        let td5 = tr.insertCell(4);
+        td5.classList.add('col-1');
+        td5.appendChild(editButton);
+        td5.appendChild(deleteButton);
+    });
+    transactions = transactionsData;
+    categories = categoriesData;
 }
 
 function deleteTransaction(id) {
-    fetch(`${uri}/${id}`, {
+    fetch(`${uriTransactions}/${id}`, {
         method: 'DELETE'
     })
         .then(() => getTransactions())
