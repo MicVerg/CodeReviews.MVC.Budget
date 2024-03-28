@@ -4,18 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="..\css\custom.css">
-    <script src="..\node_modules\bootstrap\dist\js\bootstrap.bundle.min.js"></script>
-    <script src="js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript">
-        getCategories();
-        getTransactions();
-    </script>
-
 
     <title>BudgetApp</title>
 </head>
 <body>
-    
     <section>
     <div class="container">
             <div>
@@ -125,10 +117,10 @@
                                                 <select class="form-select" id="categoryToEdit"></select>
                                             </div>
                                             <div class="col-2 mt-4">
-                                                <button type="button" class="btn btn-warning">Edit</button>
+                                                <button type="button" class="btn">Edit</button>
                                             </div>
                                             <div class="col-2 mt-4">
-                                                <button type="button" class="btn btn-danger">Delete</button>
+                                                <button type="button" class="btn">Delete</button>
                                             </div>
                                         </div>
                                     </div>
@@ -147,21 +139,45 @@
 </section>
 
 <section>
-<div class="m-5">
-    <form>
-        <table class="table text-center table-striped table-hover align-middle" id="transactions">
-            <tr>
-                <th>Description<input class="form-control form-control-sm" type="text"></th>
-                <th>Amount</th>
-                <th>+ / -</th>
-                <th>Date<select class="form-select" aria-label="Date select"></select></th>
-                <th>Category<select class="form-select" aria-label="Category select"></select></th>
-                <th>Edit/ Delete</th>
-            </tr>
-        </table>
-    </form>
-</div>
+    <div class="m-5">
+        <form>
+            <table class="table text-center table-striped table-hover align-middle" id="transactions">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Edit/ Delete</th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <input class="form-control form-control-sm" type="text" placeholder="Search by Description" id="filterdescription" onkeyup="filterTransactions()">
+                        </th>
+                        <th></th>
+                        <th>
+                            <input type="date" class="form-control text-center" placeholder="Date" oninput="filterDate()" id="filterdate"></select>
+                        </th>
+                        <th>
+                            <select class="form-select form-select-sm" aria-label="Category select" id="filtercategory" onkeyup="filterCategories()">
+                            <option selected>Select Category</option>
+                            </select>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </form>
+    </div>
 </section>
+
+
+<script src="..\node_modules\bootstrap\dist\js\bootstrap.bundle.min.js"></script>
+<script src="js/site.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    getCategories();
+    getTransactions();
+</script>
 
 </body>
 </html>

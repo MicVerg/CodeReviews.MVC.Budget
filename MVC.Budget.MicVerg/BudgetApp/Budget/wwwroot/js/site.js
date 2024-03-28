@@ -24,7 +24,6 @@ function getCategories() {
 
 function _displayTransactions(transactionsData, categoriesData) {
     const tBody = document.getElementById('transactions');
-    tBody.innerHTML = '';
 
     let categoryMap = {};
     categoriesData.forEach(category => {
@@ -35,13 +34,9 @@ function _displayTransactions(transactionsData, categoriesData) {
 
     transactionsData.forEach(transaction => {
         let editButton = document.createElement('button');
-        editButton.classList.add('btn', 'btn-warning', 'btn-md');
+        editButton.classList.add('btn', 'btn-md');
         editButton.style.width = '100%';
         editButton.style.fontWeight = 'bold';
-
-        let icon = document.createElement('i');
-        icon.classList.add('bi', 'bi-pencil-fill');
-        editButton.appendChild(icon);
 
         let text = document.createTextNode(' Edit');
         editButton.appendChild(text);
@@ -52,13 +47,9 @@ function _displayTransactions(transactionsData, categoriesData) {
     
 
     let deleteButton = document.createElement('button');
-    deleteButton.classList.add('btn', 'btn-danger', 'btn-md');
+    deleteButton.classList.add('btn', 'btn-md');
     deleteButton.style.width = '100%';
     deleteButton.style.fontWeight = 'bold';
-
-    let deleteIcon = document.createElement('i');
-    deleteIcon.classList.add('bi', 'bi-x-circle-fill');
-    deleteButton.appendChild(deleteIcon);
 
     let deleteText = document.createTextNode(' Delete');
     deleteButton.appendChild(deleteText);
@@ -68,6 +59,7 @@ function _displayTransactions(transactionsData, categoriesData) {
         };
 
         let tr = tBody.insertRow();
+        tr.classList.add('align-middle');
 
         let td1 = tr.insertCell(0);
         let textNodeDescription = (document.createTextNode(transaction.description));
@@ -88,7 +80,7 @@ function _displayTransactions(transactionsData, categoriesData) {
         let formattedDate = transactionDate.toLocaleDateString('nl-BE', {
             day: '2-digit',
             month: '2-digit',
-            year: '2-digit'
+            year: 'numeric'
         });
         let textNodeDate = (document.createTextNode(formattedDate));
         td3.appendChild(textNodeDate);
@@ -122,3 +114,70 @@ function displayEditForm(id) {
     document.getElementById('edit-id').value = transaction.id;
     document.getElementById('editForm').style.display = 'block';
 }
+
+function filterTransactions(){
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("filterdescription");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("transactions");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+}
+
+function filterDate() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("filterdate");
+    filter = input.value; // Retrieve the value of the date input
+
+    // Convert the string to a Date object
+    var selectedDate = new Date(filter);
+
+    // Convert the selected date to the format you want
+    filter = selectedDate.toLocaleDateString('nl-BE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+    
+    table = document.getElementById("transactions");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[2];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            // You might want to parse the text content of td to a Date object 
+            // and then format it for comparison
+            // Assuming txtValue is in the format "DD/MM/YYYY"
+            var parts = txtValue.split('/'); // Split the string by '/'
+            var formattedDate = parts[2] + '-' + parts[1] + '-' + parts[0]; // Reformat to "YYYY-MM-DD"
+
+            // Now you can create the Date object
+            var dateFromRow = new Date(formattedDate);
+            var formattedDateFromRow = dateFromRow.toLocaleDateString('nl-BE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            if (formattedDateFromRow === filter) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
+
+
