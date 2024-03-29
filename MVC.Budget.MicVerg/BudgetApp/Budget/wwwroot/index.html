@@ -140,34 +140,32 @@
 
 <section>
     <div class="m-5">
-        <form>
-            <table class="table text-center table-striped table-hover align-middle" id="transactions">
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Edit/ Delete</th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <input class="form-control form-control-sm" type="text" placeholder="Search by Description" id="filterdescription" onkeyup="filterTransactions()">
-                        </th>
-                        <th></th>
-                        <th>
-                            <input type="date" class="form-control text-center" placeholder="Date" oninput="filterDate()" id="filterdate"></select>
-                        </th>
-                        <th>
-                            <select class="form-select form-select-sm" aria-label="Category select" id="filtercategory" onkeyup="filterCategories()">
-                            <option selected>Select Category</option>
-                            </select>
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-            </table>
-        </form>
+        <table class="table text-center table-striped table-hover align-middle" id="transactions">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Edit/ Delete</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input class="form-control form-control-sm" type="text" placeholder="Search by Description" id="filterdescription" onkeyup="filterTransactions()">
+                    </th>
+                    <th></th>
+                    <th>
+                        <input type="date" class="form-control text-center" placeholder="Date" onchange="filterDate()" onkeyup="filterDate()" id="filterdate"></select>
+                    </th>
+                    <th>
+                        <select class="form-select form-select-sm" aria-label="Category select" id="filtercategory" onkeyup="filterCategories()">
+                        <option selected>Select Category</option>
+                        </select>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </section>
 

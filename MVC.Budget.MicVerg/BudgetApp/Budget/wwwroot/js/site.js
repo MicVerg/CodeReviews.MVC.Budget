@@ -2,6 +2,7 @@ const uriTransactions = 'https://localhost:7129/api/transactions';
 const uriCategories = 'https://localhost:7129/api/categories';
 let transactions = [];
 let categories = [];
+
 function getTransactions() {
     return fetch(uriTransactions)
         .then(response => response.json())
@@ -138,39 +139,41 @@ function filterTransactions(){
 function filterDate() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("filterdate");
-    filter = input.value; // Retrieve the value of the date input
+    filter = input.value;
 
-    // Convert the string to a Date object
-    var selectedDate = new Date(filter);
+    // Check if the input is empty and handle accordingly
+    if (filter === "") {
+        // If the input is empty, reset the filter to show all rows
+        filter = null;
+    } else {
+        var selectedDate = new Date(filter);
+        filter = selectedDate.toLocaleDateString('nl-BE', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    }
 
-    // Convert the selected date to the format you want
-    filter = selectedDate.toLocaleDateString('nl-BE', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    });
-    
     table = document.getElementById("transactions");
     tr = table.getElementsByTagName("tr");
-
+    
     for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[2];
         if (td) {
             txtValue = td.textContent || td.innerText;
-            // You might want to parse the text content of td to a Date object 
-            // and then format it for comparison
-            // Assuming txtValue is in the format "DD/MM/YYYY"
-            var parts = txtValue.split('/'); // Split the string by '/'
-            var formattedDate = parts[2] + '-' + parts[1] + '-' + parts[0]; // Reformat to "YYYY-MM-DD"
+            
+            var parts = txtValue.split('/'); 
+            var formattedDate = parts[2] + '-' + parts[1] + '-' + parts[0];
 
-            // Now you can create the Date object
             var dateFromRow = new Date(formattedDate);
             var formattedDateFromRow = dateFromRow.toLocaleDateString('nl-BE', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric'
             });
-            if (formattedDateFromRow === filter) {
+
+            // Adjust the condition to handle the case when filter is null
+            if (!filter || formattedDateFromRow === filter) {
                 tr[i].style.display = "";
             } else {
                 tr[i].style.display = "none";
@@ -178,6 +181,4 @@ function filterDate() {
         }
     }
 }
-
-
 
