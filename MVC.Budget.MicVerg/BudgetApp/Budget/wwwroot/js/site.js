@@ -15,13 +15,24 @@ function getTransactions() {
         .catch(error => console.error('Unable to get transactions.', error));
 }
 
-
 function getCategories() {
     return fetch(uriCategories)
         .then(response => response.json())
         .catch(error => console.error('Unable to get categories.', error));
 }
 
+function _displayCategories(categoriesData) {
+    const selectCategories = document.getElementById('filtercategory');
+    let option1 = document.createElement('option');
+    option1.textContent = 'Hello';
+    selectCategories.add(option1);
+    //categories.forEach(category => {
+        //var selectOption = document.createElement("HTMLOptionElement");
+        //selectOption= category.description;
+        //selectCategories.add(selectOption.text);
+    //});
+    categories = categoriesData;
+}
 
 function _displayTransactions(transactionsData, categoriesData) {
     const tBody = document.getElementById('transactions');
