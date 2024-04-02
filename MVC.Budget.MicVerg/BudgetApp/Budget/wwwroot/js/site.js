@@ -28,13 +28,17 @@ function getCategories() {
 function _displayCategories(categoriesData) {
     const selectCategories = document.getElementById('filtercategory');
     const selectEditCategories = document.getElementById('categoryToEdit');
-    
+    const selectAddTransactionCategory = document.getElementById('transactionCategory');
+
     // Clear existing options
     while (selectCategories.options.length > 1) {
         selectCategories.remove(1);
     }
     while (selectEditCategories.options.length > 1) {
         selectEditCategories.remove(1);
+    }
+    while (selectAddTransactionCategory.options.length > 1) {
+        selectAddTransactionCategory.remove(1);
     }
 
     categoriesData.forEach(category => {
@@ -48,7 +52,13 @@ function _displayCategories(categoriesData) {
         selectEditOption.textContent = category.description;
         selectEditCategories.add(selectEditOption);
 
+        // Create an option for add transaction modal
+        var selectAddTransactionOption = document.createElement("option");
+        selectAddTransactionOption.textContent = category.description;
+        selectAddTransactionCategory.add(selectAddTransactionOption);
+
         selectEditCategories.options[0].textContent = 'Select category';
+        selectAddTransactionCategory.options[0].textContent = 'Select category';
     });
 }
 
