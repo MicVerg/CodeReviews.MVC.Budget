@@ -18,20 +18,26 @@ function getTransactions() {
 function getCategories() {
     return fetch(uriCategories)
         .then(response => response.json())
+        .then(categoriesData => {
+            _displayCategories(categoriesData);
+            return categoriesData; // Return the categories data
+        })
         .catch(error => console.error('Unable to get categories.', error));
 }
 
 function _displayCategories(categoriesData) {
     const selectCategories = document.getElementById('filtercategory');
-    let option1 = document.createElement('option');
-    option1.textContent = 'Hello';
-    selectCategories.add(option1);
-    //categories.forEach(category => {
-        //var selectOption = document.createElement("HTMLOptionElement");
-        //selectOption= category.description;
-        //selectCategories.add(selectOption.text);
-    //});
-    categories = categoriesData;
+    
+     // Clear existing options
+     while (selectCategories.options.length > 1) {
+        selectCategories.remove(1);
+    }
+
+    categoriesData.forEach(category => {
+        var selectOption = document.createElement("option");
+        selectOption.textContent = category.description;
+        selectCategories.add(selectOption);
+    });
 }
 
 function _displayTransactions(transactionsData, categoriesData) {
@@ -193,3 +199,29 @@ function filterDate() {
     }
 }
 
+function filterCategories() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("filtercategory");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("transactions");
+    tr = table.getElementsByTagName("tr");
+
+    if (filter === "SELECT CATEGORY") {
+        for (i = 0; i < tr.length; i++) {
+            tr[i].style.display = "";
+        }
+        return;
+    }
+
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[3];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+}
