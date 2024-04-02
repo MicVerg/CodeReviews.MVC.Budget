@@ -27,18 +27,31 @@ function getCategories() {
 
 function _displayCategories(categoriesData) {
     const selectCategories = document.getElementById('filtercategory');
+    const selectEditCategories = document.getElementById('categoryToEdit');
     
-     // Clear existing options
-     while (selectCategories.options.length > 1) {
+    // Clear existing options
+    while (selectCategories.options.length > 1) {
         selectCategories.remove(1);
+    }
+    while (selectEditCategories.options.length > 1) {
+        selectEditCategories.remove(1);
     }
 
     categoriesData.forEach(category => {
+        // Create an option for selectCategories
         var selectOption = document.createElement("option");
         selectOption.textContent = category.description;
         selectCategories.add(selectOption);
+
+        // Create an option for selectEditCategories
+        var selectEditOption = document.createElement("option");
+        selectEditOption.textContent = category.description;
+        selectEditCategories.add(selectEditOption);
+
+        selectEditCategories.options[0].textContent = 'Select category';
     });
 }
+
 
 function _displayTransactions(transactionsData, categoriesData) {
     const tBody = document.getElementById('transactions');
